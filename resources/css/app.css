@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: hsla(38, 95%, 51%, 1);
+}
+
+.navlink {
+    @apply h-11 relative before:h-11 before:scale-y-0 before:transition-transform before:duration-200 before:ease-in before:content-[''] before:absolute before:left-0 before:w-1.5 before:rounded-r-full before:top-0 before:bottom-0 before:bg-yellow-500 hover:before:scale-y-100 flex items-center justify-center;
+}
+
+.selected {
+    @apply before:scale-y-100;
+}
