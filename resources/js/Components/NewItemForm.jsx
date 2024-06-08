@@ -2,7 +2,7 @@ import { useForm, usePage } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 
 export default function NewItemForm({ onCloseForm }) {
-  const { data, setData, post, errors } = useForm({
+  const { data, setData, post, errors, wasSuccessful } = useForm({
     name: "",
     note: "",
     image: "",
@@ -14,6 +14,10 @@ export default function NewItemForm({ onCloseForm }) {
     post("items/create");
     onCloseForm();
   }
+
+  useEffect(() => {
+    if (wasSuccessful) onCloseForm();
+  }, [wasSuccessful]);
 
   return (
     <form
@@ -136,7 +140,7 @@ function CategoryInput({ value, onChangeValue }) {
         placeholder="Enter a category"
         className="border-2 rounded-xl border-gray-300 px-4 py-5 focus:outline-primary w-full"
       />
-      {isOpen && (
+      {isOpen && props.categories.length > 0 && (
         <ul
           ref={dropdownRef}
           className="absolute w-full max-h-[200px] overflow-y-auto rounded-xl p-2 top-20 bg-white border space-y-1"

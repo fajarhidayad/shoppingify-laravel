@@ -1,9 +1,19 @@
 import { PlusIcon, SearchIcon } from "lucide-react";
-import Card from "../Components/Card";
 import { useState } from "react";
-import { router } from "@inertiajs/react";
+import Card from "../Components/Card";
+import {
+  ITEM_DETAILS_MENU,
+  ITEM_LIST_MENU,
+  useMenuStore,
+} from "../Store/useMenuStore";
+import { useItemDetails } from "../Store/useItemDetails";
+import { useItemListStore } from "../Store/useItemListStore";
 
 export default function Items({ products }) {
+  const { setMenu } = useMenuStore();
+  const { setItemDetails } = useItemDetails();
+  const { addItem } = useItemListStore();
+
   return (
     <>
       <div className="flex items-start justify-between mb-14">
@@ -22,13 +32,21 @@ export default function Items({ products }) {
               {products[category].map((item) => (
                 <Card
                   key={item.id}
-                  onClick={() =>
-                    router.get(`/items/${item.id}`, {}, { preserveState: true })
-                  }
+                  onClick={() => {
+                    setMenu(ITEM_DETAILS_MENU);
+                    setItemDetails(item);
+                  }}
                   className={"flex items-center justify-between"}
                 >
                   <p>{item.name}</p>
-                  <button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addItem(item);
+                      setMenu(ITEM_LIST_MENU);
+                    }}
+                    className="rounded-full p-1 hover:bg-gray-100"
+                  >
                     <PlusIcon size={20} className="text-gray-500" />
                   </button>
                 </Card>

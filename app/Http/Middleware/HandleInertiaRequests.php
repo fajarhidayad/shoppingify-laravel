@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Category;
+use App\Models\ItemList;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,8 +37,16 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $logo = asset('images/logo.svg');
+        $bottle_svg = asset('images/source.svg');
+        $cart_svg = asset('images/cart.svg');
+
         return array_merge(parent::share($request), [
-            'categories' => fn () => Category::select('id', 'name')->get()
+            'categories' => fn () => Category::select('id', 'name')->get(),
+            'logo' => fn () => $logo,
+            'bottleImg' => fn () => $bottle_svg,
+            'cartImg' => fn () => $cart_svg,
+            'activeItemList' => fn () => ItemList::where('status', 'active')->first()
         ]);
     }
 }

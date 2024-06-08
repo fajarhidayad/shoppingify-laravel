@@ -20,18 +20,6 @@ class ProductController extends Controller
         return Inertia::render('Items', ['products' => $products]);
     }
 
-    public function show($id)
-    {
-        $products = Product::select('categories.name as category_name', 'products.*')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->orderBy('categories.name')
-            ->orderBy('products.name')
-            ->get()
-            ->groupBy('category_name');
-        $product = Product::where('id', $id)->first();
-        return Inertia::render('Items', ['product' => $product, 'products' => $products]);
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -49,5 +37,11 @@ class ProductController extends Controller
             'image' => $request->input('image'),
             'category_id' => $category->id,
         ]);
+    }
+
+    public function delete($id)
+    {
+        Product::where('id', $id)->forceDelete();
+        return to_route('index');
     }
 }

@@ -22,12 +22,12 @@ const navLinks = [
 ];
 
 export default function Nav() {
-  const { url } = usePage();
+  const { url, props } = usePage();
 
   return (
     <nav className="bg-white py-10 flex flex-col justify-between items-center">
       <Link href="/" className="px-6">
-        <img src="images/logo.svg" />
+        <img src={props.logo} />
       </Link>
 
       <ul className="self-stretch space-y-10">
